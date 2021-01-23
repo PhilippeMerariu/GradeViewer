@@ -2,6 +2,7 @@ package com.example.gradeviewer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.text.TextUtils.isEmpty;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -26,6 +29,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         setupUI();
         checkProfile();
+        editMode();
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     public void setupUI(){
@@ -37,15 +48,35 @@ public class ProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 saveProfile();
-                createToast();
             }
         });
+
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void saveProfile(){
         String name = nameEditText.getText().toString();
         String age = ageEditText.getText().toString();
         String studentID = studentIDEditText.getText().toString();
+
+        //Validation before save (check if fields are empty)
+        if (isEmpty(name)){
+            createToast("Error: please enter a Name before saving.");
+            return;
+        }
+        if (isEmpty(age) ){
+            createToast("Error: please enter an Age before saving.");
+            return;
+        }
+        if (Integer.parseInt(age) < 18 || Integer.parseInt(age) > 99){
+            createToast("Error: please enter a valid age (between 18 and 99).");
+            return;
+        }
+        if (isEmpty(studentID)){
+            createToast("Error: please enter a Student ID before saving.");
+            return;
+        }
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
 
@@ -54,10 +85,12 @@ public class ProfileActivity extends AppCompatActivity {
         editor.putString(getString(R.string.profileage), age);
         editor.putString(getString(R.string.profilestudentid), studentID);
         editor.apply();
+        createToast("Profile saved successfully!");
+        displayMode();
     }
 
-    public void createToast(){
-        Toast toast = Toast.makeText(getApplicationContext(), R.string.savetoast, Toast.LENGTH_LONG);
+    public void createToast(String msg){
+        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -74,6 +107,19 @@ public class ProfileActivity extends AppCompatActivity {
             ageEditText.setText(age);
             studentIDEditText.setText(studentID);
         }
+    }
 
+    public void displayMode(){
+        nameEditText.setEnabled(false);
+        ageEditText.setEnabled(false);
+        studentIDEditText.setEnabled(false);
+        saveButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void editMode(){
+        nameEditText.setEnabled(true);
+        ageEditText.setEnabled(true);
+        studentIDEditText.setEnabled(true);
+        saveButton.setVisibility(View.VISIBLE);
     }
 }

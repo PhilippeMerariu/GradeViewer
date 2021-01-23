@@ -3,7 +3,6 @@
     <string name="showGradeButtonText">Show My Grades</string>
     <string name="profilekey">pkey</string>
     <string name="profilename">pname</string>
-    <string name="savetoast">Profile Saved Successfully!</string>
     <string name="profileage">page</string>
     <string name="profilestudentid">pstudentid</string>
     <string name="action_back">actionBack</string>
