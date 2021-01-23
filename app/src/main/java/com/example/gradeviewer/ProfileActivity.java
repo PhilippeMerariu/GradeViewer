@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected EditText ageEditText;
     protected EditText studentIDEditText;
     protected Button saveButton;
+    protected Button editButton;
+
+    protected SharedPreferences sharedPref;
+    protected SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         setupUI();
         checkProfile();
-        editMode();
-
     }
 
     @Override
@@ -44,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
         ageEditText = findViewById(R.id.ageEditText);
         studentIDEditText = findViewById(R.id.studentidEditText);
         saveButton = findViewById(R.id.saveButton);
+        editButton = findViewById(R.id.editButton);
 
         saveButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -51,8 +56,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        editButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                editMode();
+            }
+        });
+
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     public void saveProfile(){
@@ -80,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
+        editor = sharedPref.edit();
         editor.putString(getString(R.string.profilename), name);
         editor.putString(getString(R.string.profileage), age);
         editor.putString(getString(R.string.profilestudentid), studentID);
@@ -97,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
     //Check if a profile already exists.
     //Display profile information if exists.
     public void checkProfile(){
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
         String name = sharedPref.getString(getString(R.string.profilename), null);
         String age = sharedPref.getString(getString(R.string.profileage), null);
         String studentID = sharedPref.getString(getString(R.string.profilestudentid), null);
@@ -106,20 +118,28 @@ public class ProfileActivity extends AppCompatActivity {
             nameEditText.setText(name);
             ageEditText.setText(age);
             studentIDEditText.setText(studentID);
+            displayMode();
+        }else{
+            editMode();
         }
+
     }
 
     public void displayMode(){
         nameEditText.setEnabled(false);
         ageEditText.setEnabled(false);
         studentIDEditText.setEnabled(false);
-        saveButton.setVisibility(View.INVISIBLE);
+        editButton.setEnabled(true);
+        saveButton.setEnabled(false);
+        //saveButton.setVisibility(View.INVISIBLE);
     }
 
     public void editMode(){
         nameEditText.setEnabled(true);
         ageEditText.setEnabled(true);
         studentIDEditText.setEnabled(true);
-        saveButton.setVisibility(View.VISIBLE);
+        editButton.setEnabled(false);
+        saveButton.setEnabled(true);
+        //saveButton.setVisibility(View.VISIBLE);
     }
 }

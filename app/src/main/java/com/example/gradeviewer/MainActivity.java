@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected Button showGradesButton;
     protected Button profileButton;
 
+    protected SharedPreferences sharedPref;
+//    protected SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         checkProfile();
     }
 
+
     protected void onStart() {
         super.onStart();
 
         checkProfile();
-
     }
 
     //initialize all the UI objects
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     //Display profile name on button if exists
     //Navigate to profile activity if doesn't exists
     public void checkProfile(){
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
         String name = sharedPref.getString(getString(R.string.profilename), null);
 
         if (name == null){
