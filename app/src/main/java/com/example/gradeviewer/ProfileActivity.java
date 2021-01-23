@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         setupUI();
-
+        checkProfile();
     }
 
     public void setupUI(){
@@ -59,5 +59,21 @@ public class ProfileActivity extends AppCompatActivity {
     public void createToast(){
         Toast toast = Toast.makeText(getApplicationContext(), R.string.savetoast, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    //Check if a profile already exists.
+    //Display profile information if exists.
+    public void checkProfile(){
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
+        String name = sharedPref.getString(getString(R.string.profilename), null);
+        String age = sharedPref.getString(getString(R.string.profileage), null);
+        String studentID = sharedPref.getString(getString(R.string.profilestudentid), null);
+
+        if (name != null){
+            nameEditText.setText(name);
+            ageEditText.setText(age);
+            studentIDEditText.setText(studentID);
+        }
+
     }
 }

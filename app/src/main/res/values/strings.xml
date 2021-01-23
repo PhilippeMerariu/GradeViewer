@@ -7,4 +7,6 @@
     <string name="profileage">page</string>
     <string name="profilestudentid">pstudentid</string>
     <string name="action_back">actionBack</string>
+    <string name="profileTitle">My Profile</string>
+    <string name="gradesTitle">My Grades</string>
 </resources>
