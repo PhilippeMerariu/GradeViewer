@@ -8,4 +8,5 @@
     <string name="action_back">actionBack</string>
     <string name="profileTitle">My Profile</string>
     <string name="gradesTitle">My Grades</string>
+    <string name="convertGrades">Convert Grades</string>
 </resources>

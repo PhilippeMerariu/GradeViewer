@@ -3,8 +3,8 @@ package com.example.gradeviewer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import java.util.Random;
 public class MyGradesActivity extends AppCompatActivity {
 
     protected TextView gradesTextView;
+    protected Button convertGradesButton;
 
     protected static ArrayList<Course> courses = new ArrayList<>();
 
@@ -33,6 +34,14 @@ public class MyGradesActivity extends AppCompatActivity {
 
     public void setupUI(){
         gradesTextView = findViewById(R.id.gradesTextView);
+        convertGradesButton = findViewById(R.id.convertGradesButton);
+
+        convertGradesButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,5 +67,6 @@ public class MyGradesActivity extends AppCompatActivity {
             gradesTextView.append("\nAverage :\t\t" + average + "\n\n");
         }
     }
+
 
 }

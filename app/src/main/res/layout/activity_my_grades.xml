@@ -10,7 +10,7 @@
         android:id="@+id/gradesPageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="75dp"
         android:text="@string/gradesTitle"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,5 +39,16 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/convertGradesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/convertGrades"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
