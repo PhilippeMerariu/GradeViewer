@@ -16,6 +16,7 @@ public class MyGradesActivity extends AppCompatActivity {
     protected Button convertGradesButton;
 
     protected static ArrayList<Course> courses = new ArrayList<>();
+    protected static boolean isLetter = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class MyGradesActivity extends AppCompatActivity {
 
         setupUI();
         getGrades();
+        isLetter = false;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MyGradesActivity extends AppCompatActivity {
         convertGradesButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                convertGrades();
             }
         });
 
@@ -50,8 +52,8 @@ public class MyGradesActivity extends AppCompatActivity {
     public void getGrades(){
         Random rnd = new Random();
         int count = rnd.nextInt(5) + 1;
-        count = 5;
 
+        courses.clear();
         for(int i = 0; i < count; i++){
             double average = 0;
             courses.add(Course.generateRandomCourse());
@@ -66,6 +68,70 @@ public class MyGradesActivity extends AppCompatActivity {
             average = Math.round(average * 100.0) / 100.0;
             gradesTextView.append("\nAverage :\t\t" + average + "\n\n");
         }
+    }
+
+    public void convertGrades(){
+        double average = 0;
+        double nbAssignments = 0;
+
+        gradesTextView.setText("");
+        for(Course course : courses){
+            average = 0;
+            nbAssignments = 0;
+            gradesTextView.append(course.getCourseTitle() + "\n");
+            for(Assignment assignment : course.getAssignments()){
+                gradesTextView.append(assignment.getAssignmentTitle() + " :\t\t" + displayGrade(assignment.getAssignmentGrade()) + "\n");
+                average += assignment.getAssignmentGrade();
+                nbAssignments++;
+            }
+            average /= nbAssignments;
+            average = Math.round(average * 100.0) / 100.0;
+            gradesTextView.append("\nAverage : \t\t" + displayGrade(average) + "\n\n");
+        }
+        isLetter = !isLetter;
+    }
+
+    public String displayGrade(double grade){
+        if (isLetter){
+            return String.valueOf(grade);
+        }
+        if(grade >= 90){
+            return "A+";
+        }
+        if(grade >= 85){
+            return "A";
+        }
+        if(grade >= 80){
+            return "A-";
+        }
+        if(grade >= 77){
+            return "B+";
+        }
+        if(grade >= 73){
+            return "B";
+        }
+        if(grade >= 70){
+            return "B-";
+        }
+        if(grade >= 67){
+            return "C+";
+        }
+        if(grade >= 63){
+            return "C";
+        }
+        if(grade >= 60){
+            return "C-";
+        }
+        if(grade >= 57){
+            return "D+";
+        }
+        if(grade >= 53){
+            return "D";
+        }
+        if(grade >= 50){
+            return "D-";
+        }
+        return "F";
     }
 
 

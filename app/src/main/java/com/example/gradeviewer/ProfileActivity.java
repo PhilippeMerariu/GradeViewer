@@ -25,13 +25,14 @@ public class ProfileActivity extends AppCompatActivity {
     protected Button saveButton;
     protected Button editButton;
 
-    protected SharedPreferences sharedPref;
-    protected SharedPreferences.Editor editor;
+    protected SharedPreferenceHelper sharedPrefHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        sharedPrefHelper = new SharedPreferenceHelper(ProfileActivity.this);
 
         setupUI();
         checkProfile();
@@ -90,13 +91,10 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
+        sharedPrefHelper.saveProfileName(name);
+        sharedPrefHelper.saveProfileAge(age);
+        sharedPrefHelper.saveProfileStudentID(studentID);
 
-        editor = sharedPref.edit();
-        editor.putString(getString(R.string.profilename), name);
-        editor.putString(getString(R.string.profileage), age);
-        editor.putString(getString(R.string.profilestudentid), studentID);
-        editor.apply();
         createToast("Profile saved successfully!");
         displayMode();
     }
@@ -109,10 +107,10 @@ public class ProfileActivity extends AppCompatActivity {
     //Check if a profile already exists.
     //Display profile information if exists.
     public void checkProfile(){
-        sharedPref = getSharedPreferences(getString(R.string.profilekey), Context.MODE_PRIVATE);
-        String name = sharedPref.getString(getString(R.string.profilename), null);
-        String age = sharedPref.getString(getString(R.string.profileage), null);
-        String studentID = sharedPref.getString(getString(R.string.profilestudentid), null);
+
+        String name = sharedPrefHelper.getProfileName();
+        String age = sharedPrefHelper.getProfileAge();
+        String studentID = sharedPrefHelper.getProfileStudentID();
 
         if (name != null){
             nameEditText.setText(name);
